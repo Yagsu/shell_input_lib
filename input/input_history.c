@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 21:15:21 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/16 18:06:27 by jesse            ###   ########.fr       */
+/*   Updated: 2020/08/16 18:22:12 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	editor_history_up(char c, struct s_term_config *term)
 		term->line.len = term->line.data ? ft_strlen(term->line.data) : 0;
 		term->pos = term->line.len;
 		clear_states(term);
+		add_state(term);
 	}
 	update_screen(term);
 }
@@ -95,6 +96,7 @@ void	editor_history_down(char c, struct s_term_config *term)
 		term->line.len = term->line.data ? ft_strlen(term->line.data) : 0;
 		term->pos = term->line.len;
 		clear_states(term);
+		add_state(term);
 	}
 	update_screen(term);
 }
