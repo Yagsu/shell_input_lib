@@ -22,7 +22,7 @@ FILES=	main.c	\
 		$(INPUT)input_key_management.c \
 		$(INPUT)input_esc_seq.c \
 		$(INPUT)input_buffer_management.c \
-		$(INPUT)input_editor_funcs2.c \
+		$(INPUT)input_editor_funcs_2.c \
 		$(INPUT)input_word_editing.c \
 		$(INPUT)input_editor_undo_redo.c \
 		$(AC)path_handling.c \
