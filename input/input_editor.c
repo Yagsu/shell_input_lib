@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/17 02:01:29 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/16 20:31:37 by jesse            ###   ########.fr       */
+/*   Updated: 2020/08/18 00:32:39 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,13 @@ void	start_editor(struct s_term_config *term)
 	clear_states(term);
 }
 
-
 int		toggle_editor(struct s_term_config *term)
 {
 	if (init_editor(term) == -1)
 		return (-1);
 	start_editor(term);
 	restore_term(term);
-	ft_printf("\n");
+	write(1, "\n", 1); // Idea by npimenof
 	return (0);
 }
 

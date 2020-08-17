@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 19:30:37 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/16 18:36:49 by jesse            ###   ########.fr       */
+/*   Updated: 2020/08/18 00:32:20 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ int		parse_two_step(int c, int *i)
 
 int		parse_three_step(int c, int *i)
 {
-	if (c >= 50 && c <= 54)
+	if (c >= 49 && c <= 54)
 	{
+		if (c == 49)
+			*i = HOME;
 		if (c == 51)
 			*i = DEL;
 		get_escape_seq();

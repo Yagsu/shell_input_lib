@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/14 21:42:20 by jesse             #+#    #+#             */
-/*   Updated: 2020/07/19 02:41:17 by jesse            ###   ########.fr       */
+/*   Updated: 2020/08/17 23:57:39 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int		handle_keys(struct s_term_config *term,
 		term->line.data = ft_strdup(handler->line[handler->index].data);
 		term->line.len = ft_strlen(handler->line[handler->index].data);
 		term->pos = handler->line[handler->index].pos;
+		add_state(term);
 		handle_key(c, term);
 		update_screen(term);
 		return (1);
