@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/19 01:44:48 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/21 18:55:25 by jesse            ###   ########.fr       */
+/*   Updated: 2020/08/21 19:35:57 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,8 @@ enum			e_input_keys
 	CTRL_U = 1010,
 	CTRL_R = 1011,
 	CTRL_K = 1012,
-	CTRL_Y = 1013
+	CTRL_Y = 1013,
+	CTRL_W = 1014
 };
 
 typedef	void	t_editor_fn(char c, struct s_term_config *term);
@@ -196,13 +197,16 @@ void			editor_undo(char c, struct s_term_config *term);
 void			editor_redo(char c, struct s_term_config *term);
 void			editor_end(char c, struct s_term_config *term);
 void			editor_kill_end(char c, struct s_term_config *term);
+void			editor_kill_start(char c, struct s_term_config *term);
 void			editor_paste(char c, struct s_term_config *term);
 
 /*
 *	Clipboard & Kill ring
 */
 
-//	TODO
+void			prepare_buffer(struct s_term_config *term);
+void			add_to_clipboard(struct s_term_config *term, char *str);
+
 
 /*
 **	Word management

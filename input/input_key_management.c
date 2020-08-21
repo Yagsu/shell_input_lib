@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/17 02:01:47 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/21 17:36:17 by jesse            ###   ########.fr       */
+/*   Updated: 2020/08/21 19:37:03 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static const t_key g_functable[] =
 	{CTRL_U, &editor_undo},
 	{CTRL_R, &editor_redo},
 	{CTRL_K, &editor_kill_end},
+	{CTRL_W, &editor_kill_start},
 	{CTRL_Y, &editor_paste},
 	{HOME, &editor_home},
 	{DEL, &editor_delete},
@@ -55,6 +56,8 @@ int		parse_control_keys(int c, int *i)
 		return (*i = CTRL_K);
 	if (c == ('y' & 0x1F))
 		return (*i = CTRL_Y);
+	if (c == ('w' & 0x1F))
+		return (*i = CTRL_W);
 	return (0);
 }
 
