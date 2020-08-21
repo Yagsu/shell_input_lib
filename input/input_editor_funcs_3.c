@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 15:58:55 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/21 19:35:26 by jesse            ###   ########.fr       */
+/*   Updated: 2020/08/21 20:05:54 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,31 @@ void			editor_paste(char c, struct s_term_config *term)
 		add_state(term);
 		update_screen(term);
 	}
+}
+
+void			editor_clear_rows(char c, struct s_term_config *term)
+{
+	struct s_buffer buffer;
+	char	*seq;
+	int		i;
+
+	(void)c;
+	init_buffer(&buffer);
+	ft_snprintf(&seq, "\x1b[%dB", 99999999);
+	buffer_append(&buffer, seq, ft_strlen(seq));
+	free(seq);
+	i = 0;
+	while (i < term->window_rows - 1)
+	{
+		ft_snprintf(&seq, "\r\x1b[0K\x1b[1A");
+		buffer_append(&buffer, seq, ft_strlen(seq));
+		free(seq);
+		i++;
+	}
+	ft_snprintf(&seq, "\r\x1b[0K");
+	buffer_append(&buffer, seq, ft_strlen(seq));
+	free(seq);
+	write(STDIN_FILENO, buffer.data, buffer.len);
+	buffer_free(&buffer);
+	update_screen(term);
 }

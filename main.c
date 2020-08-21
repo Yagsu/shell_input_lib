@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/14 20:38:00 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/21 18:56:29 by jesse            ###   ########.fr       */
+/*   Updated: 2020/08/21 19:44:39 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int		main()
 		ft_printf("Line is: %s\n", line);
 		if (line && !ft_strcmp(line, "exit"))
 			status = 0;
+		if (line && !ft_strcmp(line, "history"))
+			print_history(&term);
 		if (line)
 			free(line);
 		reset_config(&term);

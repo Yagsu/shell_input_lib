@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/19 01:44:48 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/21 19:35:57 by jesse            ###   ########.fr       */
+/*   Updated: 2020/08/21 20:05:34 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,8 @@ enum			e_input_keys
 	CTRL_R = 1011,
 	CTRL_K = 1012,
 	CTRL_Y = 1013,
-	CTRL_W = 1014
+	CTRL_W = 1014,
+	CTRL_L = 1015
 };
 
 typedef	void	t_editor_fn(char c, struct s_term_config *term);
@@ -199,6 +200,7 @@ void			editor_end(char c, struct s_term_config *term);
 void			editor_kill_end(char c, struct s_term_config *term);
 void			editor_kill_start(char c, struct s_term_config *term);
 void			editor_paste(char c, struct s_term_config *term);
+void			editor_clear_rows(char c, struct s_term_config *term);
 
 /*
 *	Clipboard & Kill ring
@@ -239,6 +241,7 @@ char			*word_from_path(char *path);
 */
 
 void			free_history(struct s_term_config *term);
+void			print_history(struct s_term_config *term);
 void			editor_history_up(char c, struct s_term_config *term);
 void			editor_history_down(char c, struct s_term_config *term);
 void			editor_history_add(struct s_term_config *term, char *str);
