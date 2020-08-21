@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 19:40:55 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/21 20:05:57 by jesse            ###   ########.fr       */
+/*   Updated: 2020/08/21 23:20:21 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	print_history(struct s_term_config *term)
 
 	i = 1;
 	len = term->window_cols / 4;
+	to_print = NULL;
 	while (i <= term->history.size)
 	{
 		if (term->history.line[i].len > len - 6)
@@ -32,7 +33,8 @@ void	print_history(struct s_term_config *term)
 			to_print = ft_strdup(term->history.line[i].data);
 			ft_printf("%*d %*s\n", len, i, len * 2, to_print);
 		}
-		free(to_print);
+		if (to_print)
+			free(to_print);
 		i++;
 	}
 }
