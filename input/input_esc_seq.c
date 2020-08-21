@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 19:30:37 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/18 00:32:20 by jesse            ###   ########.fr       */
+/*   Updated: 2020/08/21 19:15:03 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int		parse_two_step(int c, int *i)
 		return (*i = ARROW_RIGHT);
 	else if (c == 'H')
 		return (*i = HOME);
+	else if (c == 'F')
+		return (*i = END);
 	return (0);
 }
 

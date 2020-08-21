@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/17 02:08:41 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/16 17:07:10 by jesse            ###   ########.fr       */
+/*   Updated: 2020/08/21 19:07:41 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,11 @@ void	editor_enter(char c, struct s_term_config *term)
 		term->pos = term->line.len;
 		update_screen(term);
 	}
-	if (term->line.len)
+	if (term->line.data)
+	{
 		editor_history_add(term, term->line.data);
+		free(term->history.line[0].data);
+	}
 	term->status = DONE;
 }
 

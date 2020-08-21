@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/17 02:01:29 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/18 00:32:39 by jesse            ###   ########.fr       */
+/*   Updated: 2020/08/21 18:45:25 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ void	start_editor(struct s_term_config *term)
 
 	if (print_prompt(term) == -1)
 		return ;
-	if (term->history.size == 0)
-		editor_history_add(term, "");
 	term->status = EDITING;
 	term->line.data = ft_strdup("");
 	add_state(term);

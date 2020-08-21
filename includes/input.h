@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/19 01:44:48 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/16 18:08:00 by jesse            ###   ########.fr       */
+/*   Updated: 2020/08/21 18:55:25 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 
 # define EDITING 0
 # define DONE 42
+# define MODE_RING 1
+# define MODE_SINGLE 0
 # define HISTORY_FILE "shell.history"
 
 /*
@@ -44,7 +46,8 @@ struct			s_history
 {
 	int				size;
 	int				index;
-	char			**line;
+	
+	struct s_buffer *line;
 };
 
 struct			s_state_buffer
@@ -62,6 +65,15 @@ struct			s_state
 	struct s_state_buffer	*state;
 };
 
+struct			s_clipboard
+{
+	int						index;
+	int						size;
+	int						mode;
+
+	struct s_buffer			*line_stack;
+};
+
 struct			s_term_config
 {
 	int					window_cols;
@@ -72,7 +84,7 @@ struct			s_term_config
 	int					status;
 
 	struct s_buffer		line;
-	struct s_buffer		clipboard;
+	struct s_clipboard	clipboard;
 	struct s_state		state_stack;
 	struct s_history	history;
 	struct s_prompt		prompt;
@@ -113,6 +125,7 @@ enum			e_input_keys
 	TAB = 9,
 	ESC = 27,
 	BACKSPACE = 127,
+	END = 999,
 	ARROW_UP = 1000,
 	ARROW_DOWN = 1001,
 	ARROW_RIGHT = 1002,
@@ -125,6 +138,8 @@ enum			e_input_keys
 	CTRL_G = 1009,
 	CTRL_U = 1010,
 	CTRL_R = 1011,
+	CTRL_K = 1012,
+	CTRL_Y = 1013
 };
 
 typedef	void	t_editor_fn(char c, struct s_term_config *term);
@@ -179,6 +194,15 @@ void			editor_word_right(char c, struct s_term_config *term);
 void			editor_word_delete(char c, struct s_term_config *term);
 void			editor_undo(char c, struct s_term_config *term);
 void			editor_redo(char c, struct s_term_config *term);
+void			editor_end(char c, struct s_term_config *term);
+void			editor_kill_end(char c, struct s_term_config *term);
+void			editor_paste(char c, struct s_term_config *term);
+
+/*
+*	Clipboard & Kill ring
+*/
+
+//	TODO
 
 /*
 **	Word management
@@ -210,12 +234,12 @@ char			*word_from_path(char *path);
 ** History
 */
 
+void			free_history(struct s_term_config *term);
 void			editor_history_up(char c, struct s_term_config *term);
 void			editor_history_down(char c, struct s_term_config *term);
 void			editor_history_add(struct s_term_config *term, char *str);
 int				editor_history_load(struct s_term_config *term, const char *file);
 int				editor_history_save(struct s_term_config *term, const char *file);
-
 
 /*
 ** Undo | Redo

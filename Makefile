@@ -25,6 +25,7 @@ FILES=	main.c	\
 		$(INPUT)input_editor_funcs_2.c \
 		$(INPUT)input_word_editing.c \
 		$(INPUT)input_editor_undo_redo.c \
+		$(INPUT)input_editor_funcs_3.c \
 		$(AC)path_handling.c \
 		$(AC)trie_query.c \
 		$(AC)trie_setup.c \

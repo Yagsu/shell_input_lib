@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/13 00:23:30 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/16 21:08:28 by jesse            ###   ########.fr       */
+/*   Updated: 2020/08/21 17:31:26 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int		word_border_at_left(struct s_term_config *term)
 	int index;
 
 	index = term->pos;
+	if (index == 0)
+		return (-1);
 	if (index >= 0 && (ft_iswhitespace(term->line.data[index]) || ft_iswhitespace(term->line.data[index - 1]) || index == term->line.len))
 	{
 		index--;

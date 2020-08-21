@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 21:15:21 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/16 18:29:18 by jesse            ###   ########.fr       */
+/*   Updated: 2020/08/21 19:15:01 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,31 @@ void	reset_arr(char **list, int size)
 	}
 }
 
-char	**allocate_history(char **history, int size, int new_size)
+struct s_buffer *allocate_history(struct s_buffer *history, int size, int new_size)
 {
-	char **res;
+	struct s_buffer *list;
 
-	res = malloc(sizeof(*res) * (new_size + 1));
-	if (!res)
+	list = malloc(sizeof(struct s_buffer) * (new_size + 1));
+	if (!list)
 		return (NULL);
-	reset_arr(res, new_size + 1);
-    if (size > 0)
-		ft_memcpy(&res[2], &history[1], size * sizeof(*res));
-	return (res);
+	list[1].data = NULL;
+	list[1].len = 0;
+	list[0].data = NULL;
+    list[0].len = 0;
+	if (history[0].data)
+		free(history[0].data);
+	if (size > 0)
+		ft_memcpy(&list[2], &history[1], size * sizeof(struct s_buffer));
+	return (list);
 }
 
-void	editor_history_add(struct s_term_config *term, char *str)
+void			editor_history_add(struct s_term_config *term, char *str)
 {
-	char **new;
+	struct s_buffer *new;
 
-	if (term->history.line && term->history.size > 0 && !ft_strcmp(term->history.line[1], str))
+	if (term->history.line && term->history.size > 0 && !ft_strcmp(term->history.line[1].data, str))
+		return ;
+	if (ft_strlen(str) == 0)
 		return ;
 	new = allocate_history(term->history.line, term->history.size, term->history.size + 1);
 	if (!new)
@@ -49,27 +56,29 @@ void	editor_history_add(struct s_term_config *term, char *str)
 	if (term->history.line)
 		free(term->history.line);
 	term->history.line = new;
-	term->history.line[1] = ft_strdup(str);
+	term->history.line[1].data = ft_strdup(str);
+	term->history.line[1].len = ft_strlen(str);
 	term->history.size++;
+	term->history.index = 0;
 }
 
-void	editor_history_up(char c, struct s_term_config *term)
+void			editor_history_up(char c, struct s_term_config *term)
 {
 	(void)c;
-	if (term->history.size > 0)
+	if (term->history.size > 0 && term->history.index < term->history.size)
 	{
-		if (term->history.line[term->history.index])
-			free(term->history.line[term->history.index]);
-		if (term->line.len)
-			term->history.line[term->history.index] = ft_strdup(term->line.data);
-		else
-			term->history.line[term->history.index] = ft_strdup("");
+		if (term->history.line[term->history.index].data)
+			free(term->history.line[term->history.index].data);
+		if (term->line.data)
+		{
+			term->history.line[term->history.index].data = ft_strdup(term->line.data);
+			term->history.line[term->history.index].len = term->line.len;
+			free(term->line.data);
+		}
 		if (term->history.index < term->history.size)
 			term->history.index++;
-		if (term->line.data)
-			free(term->line.data);
-		term->line.data = term->history.line[term->history.index] ? ft_strdup(term->history.line[term->history.index]) : NULL;
-		term->line.len = term->line.data ? ft_strlen(term->line.data) : 0;
+		term->line.data = ft_strdup(term->history.line[term->history.index].data);
+		term->line.len = term->history.line[term->history.index].len;
 		term->pos = term->line.len;
 		clear_states(term);
 		add_state(term);
@@ -77,23 +86,23 @@ void	editor_history_up(char c, struct s_term_config *term)
 	update_screen(term);
 }
 
-void	editor_history_down(char c, struct s_term_config *term)
+void			editor_history_down(char c, struct s_term_config *term)
 {
 	(void)c;
 	if (term->history.size > 0)
 	{
-		if (term->history.line[term->history.index])
-			free(term->history.line[term->history.index]);
-		if (term->line.len)
-			term->history.line[term->history.index] = ft_strdup(term->line.data);
-		else
-			term->history.line[term->history.index] = ft_strdup("");
+		if (term->history.line[term->history.index].data)
+			free(term->history.line[term->history.index].data);
+		if (term->line.data)
+		{
+			term->history.line[term->history.index].data = ft_strdup(term->line.data);
+			term->history.line[term->history.index].len = term->line.len;
+			free(term->line.data);
+		}
 		if (term->history.index > 0)
 			term->history.index--;
-		if (term->line.data)
-			free(term->line.data);
-		term->line.data = term->history.line[term->history.index] ? ft_strdup(term->history.line[term->history.index]) : NULL;
-		term->line.len = term->line.data ? ft_strlen(term->line.data) : 0;
+		term->line.data = ft_strdup(term->history.line[term->history.index].data);
+		term->line.len = term->history.line[term->history.index].len;
 		term->pos = term->line.len;
 		clear_states(term);
 		add_state(term);
@@ -101,7 +110,7 @@ void	editor_history_down(char c, struct s_term_config *term)
 	update_screen(term);
 }
 
-int		editor_history_load(struct s_term_config *term, const char *file)
+int				editor_history_load(struct s_term_config *term, const char *file)
 {
 	int		fd;
 	char	*line;
@@ -109,8 +118,6 @@ int		editor_history_load(struct s_term_config *term, const char *file)
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		return (-1);
-	term->history.line = malloc(sizeof(*term->history.line) * 2);
-    term->history.line[1] = NULL;
 	while (get_next_line(fd, &line))
 	{
 		editor_history_add(term, line);
@@ -120,27 +127,31 @@ int		editor_history_load(struct s_term_config *term, const char *file)
 	return (0);
 }
 
-int		editor_history_save(struct s_term_config *term, const char *file)
+int				editor_history_save(struct s_term_config *term, const char *file)
 {
 	int		fd;
 	int		i;
 
 	fd = open(file, O_RDWR | O_CREAT, S_IRWXU | S_IRWXG);
 	if (fd < 0)
+	{
+		free_history(term);
 		return (-1);
+	}
 	i = term->history.size;
-	while (i)
+	while (i > 0)
     {
-		if (term->history.line[i] == NULL || ft_strlen(term->history.line[i]) == 0)
+		if (term->history.line[i].data == NULL || ft_strlen(term->history.line[i].data) == 0)
 		{
 			i--;
 			continue;
 		}
         if (i == 1)
-            ft_fprintf(fd, "%s", term->history.line[i--]);
+            ft_fprintf(fd, "%s", term->history.line[i--].data);
         else
-            ft_fprintf(fd, "%s\n", term->history.line[i--]);
+            ft_fprintf(fd, "%s\n", term->history.line[i--].data);
     }
 	close(fd);
+	free_history(term);
 	return (0);
 }
