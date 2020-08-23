@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 19:40:55 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/21 23:20:21 by jesse            ###   ########.fr       */
+/*   Updated: 2020/08/22 02:01:20 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ void	print_history(struct s_term_config *term)
 		if (term->history.line[i].len > len - 6)
 		{
 			to_print = ft_strsub(term->history.line[i].data, 0, len - 6);
-			ft_printf("%*d %*s...\n", len, i, len * 2 - 3, to_print);
+			ft_printf("%*d %*s...  │  %d\n", len, i, len * 2 - 3, to_print, i);
 		}
 		else
 		{
 			to_print = ft_strdup(term->history.line[i].data);
-			ft_printf("%*d %*s\n", len, i, len * 2, to_print);
+			ft_printf("%*d %*s  │  %d\n", len, i, len * 2, to_print, i);
 		}
 		if (to_print)
 			free(to_print);

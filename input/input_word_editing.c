@@ -6,11 +6,25 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/13 00:23:30 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/21 19:18:32 by jesse            ###   ########.fr       */
+/*   Updated: 2020/08/23 14:23:37 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input.h"
+
+int		get_from_pos(struct s_term_config *term, int pos)
+{
+	int from_pos;
+
+	from_pos = pos;
+	if (ft_iswhitespace(term->line.data[from_pos]) || (from_pos > 1 && ft_iswhitespace(term->line.data[from_pos - 1])))
+		while (from_pos > 1 && !ft_iswhitespace(term->line.data[from_pos - 1]))
+			from_pos--;
+	else if (!ft_iswhitespace(term->line.data[from_pos]))
+		while (from_pos < term->line.len && !ft_iswhitespace(term->line.data[from_pos]))
+			from_pos++;
+	return (from_pos);
+}
 
 int		word_border_at_left(struct s_term_config *term)
 {

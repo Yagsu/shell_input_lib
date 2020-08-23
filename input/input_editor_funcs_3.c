@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 15:58:55 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/21 20:05:54 by jesse            ###   ########.fr       */
+/*   Updated: 2020/08/23 14:24:16 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,10 @@ void			editor_kill_start(char c, struct s_term_config *term)
 		if (clipped)
 		{
 			add_to_clipboard(term, clipped);
-			ft_memmove(term->line.data, term->line.data + term->pos, ft_strlen(clipped));
+			ft_memmove(term->line.data, &term->line.data[term->pos], len);
 			term->pos -= ft_strlen(clipped);
 			term->line.len -= ft_strlen(clipped);
+			term->line.data[term->line.len] = '\0';
 			free(clipped);
 		}
 		add_state(term);

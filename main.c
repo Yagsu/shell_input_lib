@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/14 20:38:00 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/21 20:09:49 by jesse            ###   ########.fr       */
+/*   Updated: 2020/08/23 14:31:53 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,4 @@ int		main()
 	return (0);
 }
 
-// History search and execute, CTRL R - CTRL P, fix Word Delete, CTRL UP | CTLR DOWN for navigation
+// History search and execute, CTRL R - CTRL P, CTRL SHIFT U for Redo, CTRL UP | CTLR DOWN for multi line edit

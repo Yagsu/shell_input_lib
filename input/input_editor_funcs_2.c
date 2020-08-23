@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 14:25:41 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/21 20:09:51 by jesse            ###   ########.fr       */
+/*   Updated: 2020/08/23 14:24:22 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,23 +56,28 @@ void	editor_word_left(char c, struct s_term_config *term)
 
 void	editor_word_delete(char c, struct s_term_config *term)
 {
-	int new_pos;
-	int	from_pos;
+	int		to_pos;
+	int		from_pos;
+	char	*clipped;
 
 	(void)c;
+	clipped = NULL;
 	if (term->line.len == 0)
 		return ;
-	new_pos = word_border_at_left(term);
-	if (new_pos == -1)
+	to_pos = word_border_at_left(term);
+	if (to_pos == -1)
 		return ;
-	from_pos = term->pos;
-	if (!ft_iswhitespace(term->line.data[from_pos]))
-		while (from_pos > 1 && !ft_iswhitespace(term->line.data[from_pos - 1]))
-			from_pos--;
-	ft_memmove(term->line.data + new_pos, term->line.data + from_pos, term->line.len - from_pos);
-	term->line.len -= (from_pos - new_pos);
-	term->line.data[term->line.len] = '\0';
-	term->pos -= (from_pos - new_pos);
+	from_pos = get_from_pos(term, term->pos);
+	clipped = ft_strsub(term->line.data, to_pos, from_pos - to_pos);
+	if (clipped)
+	{
+		add_to_clipboard(term, clipped);
+		ft_memmove(term->line.data + to_pos, term->line.data + from_pos, term->line.len - from_pos);
+		term->line.len -= (from_pos - to_pos);
+		term->line.data[term->line.len] = '\0';
+		term->pos = to_pos;
+		free(clipped);
+	}
 	update_screen(term);
 	add_state(term);
 }

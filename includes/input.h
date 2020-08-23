@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/19 01:44:48 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/21 20:05:34 by jesse            ###   ########.fr       */
+/*   Updated: 2020/08/23 14:24:09 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ char			*finalize_buffer(struct s_term_config *term,
 				struct s_line *line, char *str, char *word_at_pos);
 void			buffer_append(struct s_buffer *buffer, const char *s, int len);
 void			buffer_free(struct s_buffer *buffer);
+void			prepare_buffer(struct s_term_config *term);
 
 /*
 ** Editor functions
@@ -206,7 +207,6 @@ void			editor_clear_rows(char c, struct s_term_config *term);
 *	Clipboard & Kill ring
 */
 
-void			prepare_buffer(struct s_term_config *term);
 void			add_to_clipboard(struct s_term_config *term, char *str);
 
 
@@ -216,6 +216,7 @@ void			add_to_clipboard(struct s_term_config *term, char *str);
 
 int				word_border_at_left(struct s_term_config *term);
 int				word_border_at_right(struct s_term_config *term);
+int				get_from_pos(struct s_term_config *term, int pos);
 
 /*
 **	Render screen
