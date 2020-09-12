@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/14 21:42:20 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/17 23:57:39 by jesse            ###   ########.fr       */
+/*   Updated: 2020/09/11 19:30:13 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int		handle_keys(struct s_term_config *term,
 			term->status = DONE;
 		free(term->line.data);
 		term->line.data = ft_strdup(handler->line[handler->index].data);
-		term->line.len = ft_strlen(handler->line[handler->index].data);
+		term->line.size = ft_strlen(handler->line[handler->index].data);
 		term->pos = handler->line[handler->index].pos;
 		add_state(term);
 		handle_key(c, term);
@@ -71,10 +71,10 @@ void	print_suggestion(struct s_term_config *term,
 
 	backup = *term;
 	term->line.data = handler->line[handler->index].data;
-	term->line.len = ft_strlen(handler->line[handler->index].data);
+	term->line.size = ft_strlen(handler->line[handler->index].data);
 	term->pos = handler->line[handler->index].pos;
 	update_screen(term);
-	term->line.len = backup.line.len;
+	term->line.size = backup.line.size;
 	term->line.data = backup.line.data;
 	term->pos = backup.pos;
 }

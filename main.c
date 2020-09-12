@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/14 20:38:00 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/23 14:31:53 by jesse            ###   ########.fr       */
+/*   Updated: 2020/09/11 19:32:02 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	init_history(struct s_term_config *term)
 {
 	term->history.line = malloc(sizeof(struct s_buffer));
 	term->history.line[0].data = NULL;
-	term->history.line[0].len = 0;
+	term->history.line[0].size = 0;
+	term->history.line[0].capacity = 0;
 	editor_history_load(term, HISTORY_FILE);
 }
 

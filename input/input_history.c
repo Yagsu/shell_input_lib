@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 21:15:21 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/21 19:15:01 by jesse            ###   ########.fr       */
+/*   Updated: 2020/09/11 19:24:00 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,11 @@ struct s_buffer *allocate_history(struct s_buffer *history, int size, int new_si
 	if (!list)
 		return (NULL);
 	list[1].data = NULL;
-	list[1].len = 0;
+	list[1].size = 0;
+	list[1].capacity = 0;
 	list[0].data = NULL;
-    list[0].len = 0;
+    list[0].size = 0;
+	list[0].capacity = 0;
 	if (history[0].data)
 		free(history[0].data);
 	if (size > 0)
@@ -57,7 +59,8 @@ void			editor_history_add(struct s_term_config *term, char *str)
 		free(term->history.line);
 	term->history.line = new;
 	term->history.line[1].data = ft_strdup(str);
-	term->history.line[1].len = ft_strlen(str);
+	term->history.line[1].size = ft_strlen(str);
+	term->history.line[1].capacity = term->history.line[1].size;
 	term->history.size++;
 	term->history.index = 0;
 }
@@ -72,14 +75,16 @@ void			editor_history_up(char c, struct s_term_config *term)
 		if (term->line.data)
 		{
 			term->history.line[term->history.index].data = ft_strdup(term->line.data);
-			term->history.line[term->history.index].len = term->line.len;
+			term->history.line[term->history.index].size = term->line.size;
+			term->history.line[term->history.index].capacity = term->line.capacity;
 			free(term->line.data);
 		}
 		if (term->history.index < term->history.size)
 			term->history.index++;
 		term->line.data = ft_strdup(term->history.line[term->history.index].data);
-		term->line.len = term->history.line[term->history.index].len;
-		term->pos = term->line.len;
+		term->line.size = term->history.line[term->history.index].size;
+		term->line.capacity = term->history.line[term->history.index].capacity;
+		term->pos = term->line.size;
 		clear_states(term);
 		add_state(term);
 	}
@@ -96,14 +101,16 @@ void			editor_history_down(char c, struct s_term_config *term)
 		if (term->line.data)
 		{
 			term->history.line[term->history.index].data = ft_strdup(term->line.data);
-			term->history.line[term->history.index].len = term->line.len;
+			term->history.line[term->history.index].size = term->line.size;
+			term->history.line[term->history.index].capacity = term->line.capacity;
 			free(term->line.data);
 		}
 		if (term->history.index > 0)
 			term->history.index--;
 		term->line.data = ft_strdup(term->history.line[term->history.index].data);
-		term->line.len = term->history.line[term->history.index].len;
-		term->pos = term->line.len;
+		term->line.size = term->history.line[term->history.index].size;
+		term->line.capacity = term->history.line[term->history.index].capacity;
+		term->pos = term->line.size;
 		clear_states(term);
 		add_state(term);
 	}

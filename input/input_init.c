@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/17 01:59:16 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/21 18:13:11 by jesse            ###   ########.fr       */
+/*   Updated: 2020/09/12 03:08:38 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,11 @@ void	init_config(struct s_term_config *term)
 	term->pos = 0;
 	term->pos_old = 0;
 	term->used_rows = 0;
-	term->line.len = 0;
+	term->line.size = 0;
+	term->line.capacity = 0;
 	term->line.data = NULL;
 	term->clipboard.index = 0;
+	term->clipboard.capacity = 0;
 	term->clipboard.size = 0;
 	term->clipboard.mode = MODE_SINGLE;
 	term->clipboard.line_stack = NULL;
@@ -74,7 +76,8 @@ void	reset_config(struct s_term_config *term)
 	term->pos = 0;
 	term->pos_old = 0;
 	term->used_rows = 0;
-	term->line.len = 0;
+	term->line.size = 0;
+	term->line.capacity = 0;
 	term->line.data = NULL;
 	term->history.index = 0;
 	if (term->prompt.prompt)

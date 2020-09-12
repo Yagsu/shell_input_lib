@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/14 21:26:10 by jesse             #+#    #+#             */
-/*   Updated: 2020/07/19 02:42:02 by jesse            ###   ########.fr       */
+/*   Updated: 2020/09/11 19:53:24 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ char		**trie_get_list(t_trie_node *root, char *query,
 	char	**list;
 	int		i;
 
+	(void)term;
 	list = trie_get_suggestions_arr(root, query, handler);
 	if (list)
 	{
@@ -81,8 +82,8 @@ char		**trie_get_list(t_trie_node *root, char *query,
 		i = 0;
 		while (i < handler->size)
 		{
-			handler->line[i].data =
-			finalize_buffer(term, &handler->line[i], list[i], query);
+			handler->line[i].data = list[i];
+			//finalize_buffer(term, &handler->line[i], list[i], query);
 			i++;
 		}
 		free_arr((void **)list);

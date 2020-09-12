@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/16 16:21:49 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/07 14:23:15 by jesse            ###   ########.fr       */
+/*   Updated: 2020/09/11 19:30:45 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*word_at_pos(struct s_term_config *term)
 
 	i = term->pos;
 	word = NULL;
-	if (term->line.len > 0)
+	if (term->line.size > 0)
 	{
 		if (i > 0)
 		{

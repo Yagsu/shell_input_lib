@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/16 15:10:48 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/21 17:36:06 by jesse            ###   ########.fr       */
+/*   Updated: 2020/09/11 19:19:30 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void					add_state(struct s_term_config *term)
 	term->state_stack.state = states;
 	term->state_stack.size++;
 	term->state_stack.state[0].data = ft_strdup(term->line.data);
-	term->state_stack.state[0].len = term->line.len;
+	term->state_stack.state[0].size = term->line.size;
+	term->state_stack.state[0].capacity = term->line.capacity;
 	term->state_stack.state[0].pos = term->pos;
 	term->state_stack.index = 0;
 }
@@ -67,7 +68,8 @@ void					editor_redo(char c, struct s_term_config *term)
 			free(term->line.data);
 		term->state_stack.index--;
 		term->line.data = ft_strdup(term->state_stack.state[term->state_stack.index].data);
-		term->line.len = term->state_stack.state[term->state_stack.index].len;
+		term->line.size = term->state_stack.state[term->state_stack.index].size;
+		term->line.capacity = term->state_stack.state[term->state_stack.index].capacity;
 		term->pos = term->state_stack.state[term->state_stack.index].pos;
 	}
 	update_screen(term);
@@ -82,7 +84,8 @@ void					editor_undo(char c, struct s_term_config *term)
 			free(term->line.data);
 		term->state_stack.index++;
 		term->line.data = ft_strdup(term->state_stack.state[term->state_stack.index].data);
-		term->line.len = term->state_stack.state[term->state_stack.index].len;
+		term->line.size = term->state_stack.state[term->state_stack.index].size;
+		term->line.capacity = term->state_stack.state[term->state_stack.index].capacity;
 		term->pos = term->state_stack.state[term->state_stack.index].pos;
 	}
 	update_screen(term);

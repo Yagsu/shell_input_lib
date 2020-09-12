@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/17 02:08:07 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/23 13:55:03 by jesse            ###   ########.fr       */
+/*   Updated: 2020/09/11 21:15:25 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	get_settings(struct s_refresh_settings *ref, struct s_term_config *term)
 {
 	ref->prompt_len = ft_strlen(term->prompt.prompt);
-	ref->rows = (ref->prompt_len + term->line.len + \
+	ref->rows = (ref->prompt_len + term->line.size + \
 	term->window_cols - 1) / term->window_cols;
 	ref->cursor_pos = (ref->prompt_len + term->pos_old + \
 	term->window_cols) / term->window_cols;
@@ -93,12 +93,12 @@ void	update_screen(struct s_term_config *term)
 		term->used_rows = ref.rows;
 	clear_rows(&buffer, &ref);
 	buffer_append(&buffer, term->prompt.prompt, ref.prompt_len);
-	buffer_append(&buffer, term->line.data, term->line.len);
-	if (term->pos && term->pos == term->line.len &&
+	buffer_append(&buffer, term->line.data, term->line.size);
+	if (term->pos && term->pos == term->line.size &&
 	(term->prompt.len + term->pos) % term->window_cols == 0)
 		append_row(&buffer, &ref, term);
 	update_cursor(&buffer, &ref, term);
 	term->pos_old = term->pos;
-	write(STDIN_FILENO, buffer.data, buffer.len);
+	write(STDIN_FILENO, buffer.data, buffer.size);
 	buffer_free(&buffer);
 }

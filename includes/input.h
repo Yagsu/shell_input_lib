@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/19 01:44:48 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/23 14:24:09 by jesse            ###   ########.fr       */
+/*   Updated: 2020/09/11 20:50:18 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,26 @@
 # define MODE_SINGLE 0
 # define HISTORY_FILE "shell.history"
 
+#define GROW_CAPACITY(capacity) \
+	((capacity) < 32 ? 32 : (capacity) * 2)
+
+#define GROW_ARRAY(type, pointer, old_count, new_count) \
+	(type*)reallocate(pointer, sizeof(type) * (old_count), \
+		sizeof(type) * (new_count))
+
+#define FREE_ARRAY(type, pointer, old_count) \
+	reallocate(pointer, sizeof(type) * old_count, 0)
+
+void	*reallocate(void *pointer, int old_size, int new_size);
+
 /*
 ** General config
 */
 
 struct			s_buffer
 {
-	int		len;
+	int		size;
+	int		capacity;
 	char	*data;
 };
 
@@ -52,7 +65,8 @@ struct			s_history
 
 struct			s_state_buffer
 {
-	int				len;
+	int				size;
+	int				capacity;
 	int				pos;
 	char			*data;
 };
@@ -69,6 +83,7 @@ struct			s_clipboard
 {
 	int						index;
 	int						size;
+	int						capacity;
 	int						mode;
 
 	struct s_buffer			*line_stack;
