@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/21 19:18:48 by jesse             #+#    #+#             */
-/*   Updated: 2020/09/12 03:09:25 by jesse            ###   ########.fr       */
+/*   Updated: 2020/09/26 23:51:03 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,6 @@ void			init_new_buffer_list(struct s_buffer *ptr, int size)
 		i++;
 	}
 }
-
-// void	prepare_buffer(struct s_term_config *term)
-// {
-// 	char	*new_buffer;
-
-// 	if (term->line.len > 0)
-// 	{
-// 		new_buffer = allocate_data(term->line.data,
-// 					term->line.len, term->line.len + term->clipboard.line_stack[term->clipboard.index].len);
-// 		free(term->line.data);
-// 		term->line.data = new_buffer;
-// 	}
-// 	if (term->line.len != term->pos)
-// 		ft_memmove(term->line.data + term->pos + term->clipboard.line_stack[term->clipboard.index].len,
-// 		term->line.data + term->pos, term->line.size - term->pos);
-// }
 
 struct s_buffer	*allocate_clipboard(struct s_term_config *term, int size)
 {

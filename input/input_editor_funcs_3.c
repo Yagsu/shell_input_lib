@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 15:58:55 by jesse             #+#    #+#             */
-/*   Updated: 2020/09/12 03:08:33 by jesse            ###   ########.fr       */
+/*   Updated: 2020/09/26 23:51:07 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void			editor_end(char c, struct s_term_config *term)
 	if (term->line.size > 0 && term->pos != term->line.size)
 	{
 		term->pos = term->line.size;
-		update_screen(term);
+		update_screen(term, NULL);
 	}
 }
 
@@ -40,7 +40,7 @@ void			editor_kill_end(char c, struct s_term_config *term)
 			free(clipped);
 		}
 		add_state(term);
-		update_screen(term);
+		update_screen(term, NULL);
 	}
 }
 
@@ -64,7 +64,7 @@ void			editor_kill_start(char c, struct s_term_config *term)
 			free(clipped);
 		}
 		add_state(term);
-		update_screen(term);
+		update_screen(term, NULL);
 	}
 }
 
@@ -91,7 +91,7 @@ void			editor_paste(char c, struct s_term_config *term)
 		if (term->clipboard.mode == MODE_RING)
 			term->clipboard.index++;
 		add_state(term);
-		update_screen(term);
+		update_screen(term, NULL);
 	}
 }
 
@@ -119,5 +119,5 @@ void			editor_clear_rows(char c, struct s_term_config *term)
 	free(seq);
 	write(STDIN_FILENO, buffer.data, buffer.size);
 	buffer_free(&buffer);
-	update_screen(term);
+	update_screen(term, NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/14 21:42:20 by jesse             #+#    #+#             */
-/*   Updated: 2020/09/11 19:30:13 by jesse            ###   ########.fr       */
+/*   Updated: 2020/09/26 23:51:00 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 void	init_handler(struct s_complete_handler *handler)
 {
+	handler->show_suggestion = 0;
 	handler->size = 0;
+	handler->offset = 0;
 	handler->index = 0;
+	handler->line = NULL;
 }
 
 void	free_handler(struct s_complete_handler *handler)
@@ -45,20 +48,18 @@ int		handle_keys(struct s_term_config *term,
 		handler->index = (handler->index + 1) % handler->size;
 	else if (c == ESC)
 	{
-		update_screen(term);
+		update_screen(term, NULL);
 		return (1);
 	}
 	else
 	{
 		if (c == ENTER)
 			term->status = DONE;
-		free(term->line.data);
-		term->line.data = ft_strdup(handler->line[handler->index].data);
-		term->line.size = ft_strlen(handler->line[handler->index].data);
-		term->pos = handler->line[handler->index].pos;
+		buffer_append_at(&term->line, term->pos, handler->line[handler->index].data, handler->line[handler->index].size);
+		term->pos += handler->line[handler->index].size;
 		add_state(term);
 		handle_key(c, term);
-		update_screen(term);
+		update_screen(term, NULL);
 		return (1);
 	}
 	return (0);
@@ -67,16 +68,11 @@ int		handle_keys(struct s_term_config *term,
 void	print_suggestion(struct s_term_config *term,
 		struct s_complete_handler *handler)
 {
-	struct s_term_config		backup;
-
-	backup = *term;
-	term->line.data = handler->line[handler->index].data;
-	term->line.size = ft_strlen(handler->line[handler->index].data);
-	term->pos = handler->line[handler->index].pos;
-	update_screen(term);
-	term->line.size = backup.line.size;
-	term->line.data = backup.line.data;
-	term->pos = backup.pos;
+	handler->show_suggestion = 1;
+	handler->offset = handler->line[handler->index].size;
+	update_screen(term, handler);
+	handler->show_suggestion = 0;
+	handler->offset = 0;
 }
 
 void	editor_complete(char c, struct s_term_config *term)

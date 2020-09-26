@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/16 15:10:48 by jesse             #+#    #+#             */
-/*   Updated: 2020/09/11 19:19:30 by jesse            ###   ########.fr       */
+/*   Updated: 2020/09/26 23:51:15 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void					editor_redo(char c, struct s_term_config *term)
 		term->line.capacity = term->state_stack.state[term->state_stack.index].capacity;
 		term->pos = term->state_stack.state[term->state_stack.index].pos;
 	}
-	update_screen(term);
+	update_screen(term, NULL);
 }
 
 void					editor_undo(char c, struct s_term_config *term)
@@ -88,5 +88,5 @@ void					editor_undo(char c, struct s_term_config *term)
 		term->line.capacity = term->state_stack.state[term->state_stack.index].capacity;
 		term->pos = term->state_stack.state[term->state_stack.index].pos;
 	}
-	update_screen(term);
+	update_screen(term, NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/14 21:28:13 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/18 00:19:12 by jesse            ###   ########.fr       */
+/*   Updated: 2020/09/26 23:06:08 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void			trie_add(t_trie_node *root, const char *word);
 void			trie_add_from_path(t_trie_node *root, char *path);
 void			trie_free(t_trie_node *root);
 
-int				trie_matches(t_trie_node *root, char *prefix);
-void			trie_complete(t_trie_node *root, char *prefix, char **list);
+int				trie_matches(t_trie_node *root, char *prefix, int depth);
+void			trie_complete(t_trie_node *root, char *prefix, char **list, int depth);
 int				trie_search(t_trie_node *root, const char *word);
 
 int				verify_path(char **path);

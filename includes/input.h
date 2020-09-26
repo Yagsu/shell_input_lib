@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/19 01:44:48 by jesse             #+#    #+#             */
-/*   Updated: 2020/09/11 20:50:18 by jesse            ###   ########.fr       */
+/*   Updated: 2020/09/26 23:47:12 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ struct			s_refresh_settings
 	int	old_rows;
 	int	cursor_pos;
 	int	cursor_pos2;
+	int	pos_offset;
 };
 
 struct			s_line
@@ -124,9 +125,11 @@ struct			s_line
 
 struct			s_complete_handler
 {
+	int				show_suggestion;
+	int				offset;
 	int				size;
 	int				index;
-	struct s_line	*line;
+	struct s_buffer	*line;
 };
 
 /*
@@ -189,6 +192,7 @@ char			*allocate_data(const char *s, int str_len, int total_len);
 char			*finalize_buffer(struct s_term_config *term,
 				struct s_line *line, char *str, char *word_at_pos);
 void			buffer_append(struct s_buffer *buffer, const char *s, int len);
+void			buffer_append_at(struct s_buffer *buffer, int at, const char *s, int len);
 void			buffer_free(struct s_buffer *buffer);
 void			prepare_buffer(struct s_term_config *term);
 
@@ -237,7 +241,7 @@ int				get_from_pos(struct s_term_config *term, int pos);
 **	Render screen
 */
 
-void			update_screen(struct s_term_config *term);
+void			update_screen(struct s_term_config *term, struct s_complete_handler *handler);
 
 /*
 ** Autocomplete handling

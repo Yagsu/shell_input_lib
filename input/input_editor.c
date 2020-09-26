@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/17 02:01:29 by jesse             #+#    #+#             */
-/*   Updated: 2020/08/22 02:14:22 by jesse            ###   ########.fr       */
+/*   Updated: 2020/09/13 00:51:54 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int		toggle_editor(struct s_term_config *term)
 		return (-1);
 	start_editor(term);
 	restore_term(term);
-	write(1, "\n", 1); // Idea by npimenof
+	write(1, "\n", 1);
 	return (0);
 }
 

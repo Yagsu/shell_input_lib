@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/14 21:26:10 by jesse             #+#    #+#             */
-/*   Updated: 2020/09/11 19:53:24 by jesse            ###   ########.fr       */
+/*   Updated: 2020/09/26 23:51:34 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,17 +76,18 @@ char		**trie_get_list(t_trie_node *root, char *query,
 	list = trie_get_suggestions_arr(root, query, handler);
 	if (list)
 	{
-		handler->line = (struct s_line *)malloc(sizeof(struct s_line) *
+		handler->line = (struct s_buffer *)malloc(sizeof(struct s_buffer) *
 		(handler->size + 1));
 		ft_bzero(handler->line, handler->size + 1);
 		i = 0;
 		while (i < handler->size)
 		{
 			handler->line[i].data = list[i];
-			//finalize_buffer(term, &handler->line[i], list[i], query);
+			handler->line[i].size = ft_strlen(list[i]);
+			handler->line[i].capacity = handler->line[i].size;
 			i++;
 		}
-		free_arr((void **)list);
+		free(list);
 	}
 	return (NULL);
 }

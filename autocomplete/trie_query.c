@@ -6,7 +6,7 @@
 /*   By: jesse <jesse@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/14 21:25:23 by jesse             #+#    #+#             */
-/*   Updated: 2020/07/19 01:47:45 by jesse            ###   ########.fr       */
+/*   Updated: 2020/09/26 23:09:15 by jesse            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ int		trie_search(t_trie_node *root, const char *word)
 	return (temp != NULL && temp->end_of_word);
 }
 
-void	trie_complete(t_trie_node *root, char *prefix, char **list)
+void	trie_complete(t_trie_node *root, char *prefix, char **list, int depth)
 {
-	int		i;
-	char	*temp;
+	int			i;
+	char		*temp;
 
-	if (root->end_of_word)
-		list_append(list, prefix);
+	if (root->end_of_word && depth < (int)ft_strlen(prefix))
+		list_append(list, &prefix[depth]);
 	if (is_last_node(root))
 		return ;
 	i = 0;
@@ -48,14 +48,14 @@ void	trie_complete(t_trie_node *root, char *prefix, char **list)
 		if (root->children[i])
 		{
 			temp = ft_strjoin_f(ft_strdup(prefix), string_from_char(i));
-			trie_complete(root->children[i], temp, list);
+			trie_complete(root->children[i], temp, list, depth);
 			free(temp);
 		}
 		i++;
 	}
 }
 
-int		trie_matches(t_trie_node *root, char *prefix)
+int		trie_matches(t_trie_node *root, char *prefix, int depth)
 {
 	char	*temp;
 	int		count;
@@ -64,7 +64,7 @@ int		trie_matches(t_trie_node *root, char *prefix)
 	count = 0;
 	if (ft_strlen(prefix) == 0)
 		return (0);
-	if (root->end_of_word)
+	if (root->end_of_word && depth < (int)ft_strlen(prefix))
 		count++;
 	if (is_last_node(root))
 		return (count);
@@ -74,7 +74,7 @@ int		trie_matches(t_trie_node *root, char *prefix)
 		if (root->children[i])
 		{
 			temp = ft_strjoin_f(ft_strdup(prefix), string_from_char(i));
-			count += trie_matches(root->children[i], temp);
+			count += trie_matches(root->children[i], temp, depth);
 			free(temp);
 		}
 		i++;
@@ -82,16 +82,13 @@ int		trie_matches(t_trie_node *root, char *prefix)
 	return (count);
 }
 
-int		get_list(t_trie_node *root, char *word, char **list)
+int		get_list(t_trie_node *root, char *word, char **list, int depth)
 {
 	if (root->end_of_word && is_last_node(root))
-	{
-		list_append(list, word);
 		return (1);
-	}
 	if (!is_last_node(root))
 	{
-		trie_complete(root, word, list);
+		trie_complete(root, word, list, depth);
 		return (1);
 	}
 	return (0);
@@ -115,10 +112,12 @@ char	**trie_get_suggestions_arr(t_trie_node *root,
 		temp = temp->children[index];
 		level++;
 	}
-	handler->size = trie_matches(temp, (char *)word);
+	handler->size = trie_matches(temp, (char *)word, level);
+	if (handler->size <= 0)
+		return (NULL);
 	list = (char **)malloc(sizeof(char *) * (handler->size + 1));
 	reset_list(list, handler->size + 1);
-	if (get_list(temp, (char *)word, list))
+	if (get_list(temp, (char *)word, list, level))
 		return (list);
 	return (NULL);
 }
